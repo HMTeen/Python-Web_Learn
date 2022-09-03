@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=chrome">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的网页：CSS学习</title>
+    
+    <!-- 定义style -->
+    <style>
+        .c1{
+            color: green;
+        }
+    </style>
+
+    <!-- 调用CSS文件 -->
+    <link type="text/css" rel="stylesheet" href="../static/my_style.css" >
+</head>
+
+
+<!-- body标签：浏览器展示部分 -->
+<body>
+    <h3>1、CSS样式应用1：直接在标签上加属性</h3>
+    <div style="color:red;">字体红色</div>
+     
+    <h3>2、CSS样式应用2：在head标签里定义style标签</h3>
+    <div class="c1">字体绿色</div>
+
+    <h3>3、CSS样式应用3：在CSS文件里面写样式，后续调用</h3>
+    <div class="c3">字体粉色</div>  
+</body>
+</html>

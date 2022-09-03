@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=chrome">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的网页：CSS学习</title>
+    
+    <!-- 定义style -->
+    <style>
+        /* 类选择器：更改所有class="c1"的标签样式 */
+        .c1{
+            color: green;
+        }
+
+        /* id选择器：更改所有id="c2"的标签样式 */
+        #c2{
+            color: gold;
+        }
+
+        /* 标签选择器：更改所有li标签的标签样式 */
+        li{
+            color: red;
+        }
+
+        /* 属性选择器：更改具有特定属性标签的标签样式 */
+        input[type='text']{
+            border: 0.5ch solid red;
+        }
+
+        /* 后代选择器：更改所有具有特定属性后代的标签样式 */
+        .yy li{
+            color: brown;
+        }
+
+        /* 后代选择器：更改子代具有特定属性后代的标签样式 */
+        .zz > span{
+            color:chartreuse;
+        }
+
+        /* 多样式应用 */
+        .c1{
+            color: cyan;
+        }
+
+        .c2{
+            font-size: 28px;
+        }
+    </style>
+
+</head>
+
+
+<!-- body标签：浏览器展示部分 -->
+<body>
+    <h3>1、类选择器</h3>
+    <div class="c1">c1样式</div>
+     
+    <h3>2、id选择器</h3>
+    <div id="c2">c2样式</div>
+
+    <h3>3、标签选择器</h3>
+    <ul>
+        <li>li标签样式</li>
+        <li>li标签样式</li>
+    </ul>
+
+    <h3>4、属性选择器</h3>
+    <input type="text">
+    <input type="password">
+
+    <h3>5、后代选择器：全部后代</h3>
+    <div class="yy">
+        <ul>
+            <li>更改yy后代的li标签样式</li>
+            <li>更改yy后代的li标签样式</li>
+        </ul>
+    </div>
+
+    <h3>6、后代选择器：仅子代</h3>
+    <div class="zz">
+        <span>子代标签内容</span>
+        <div>
+            <span>孙代标签内容</span>
+        </div>
+    </div>
+    
+    <h3>7、多样式应用&覆盖</h3>
+    <div class="c1 c2">
+        多样式应用
+    </div>
+</body>
+</html>

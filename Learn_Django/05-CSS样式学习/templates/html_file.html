@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=chrome">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo</title>
+
+    <!-- 高度&宽度 -->
+    <style>
+        .c1{
+            height: 300px;
+            /* 还可以：width: 50%*/
+            width: 500px;   
+            border: 1px solid red;
+        }
+
+        .c2{
+            display: inline-block;
+            height: 100px;
+            width: 200px;
+            border: 1px solid red;   
+        }
+
+        .c4{
+            height: 59px;
+            width: 300px;
+            text-align: center;     /*字体水平居中*/
+            line-height: 59px;     /*字体垂直居中：等于规定高度，仅使用一行文本情况*/
+            border: 1px solid red; 
+        }
+
+        .c5{
+            float: left;
+            height: 59px;
+            width: 100px;
+            text-align: center;     /*字体水平居中*/
+            line-height: 59px;     /*字体垂直居中：等于规定高度，仅使用一行文本情况*/
+            border: 1px solid red; 
+        }
+
+        .c6{
+            border: 1px solid red;
+            height: 50px;
+            width: 200px;
+
+            /* 会在原定边框上增加内边距距离 */
+            padding-left: 20px;
+            padding-top: 20px;
+            padding-right: 20px;
+            padding-bottom: 20px ;
+            /* 上述等价于：padding: 20px ; */
+
+            /* padding: 上 右 下 左 ; */
+        }
+
+        .c7{
+            height: 100px;
+            margin: 60px 40px 20px 5px;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <h3>1、高度、宽度设置</h3>
+    <!-- div为块级标签，即使定义了宽度，后续距离也不再使用 -->
+    <div class="c1">div块级标签：可以设置高度宽度</div>
+    <!-- span为行内标签：高度宽度设置无效 -->
+    <span class="c1">span行内标签：默认不能设置高度宽度</span>
+    <span class="c1">span行内标签：默认不能设置高度宽度</span>
+
+    <h3>2、display属性：综合块级、行内标签的特点</h3>
+    <!-- div为块级标签，定义宽度，后续距离可以继续使用 -->
+    <div class="c2">div块级标签，设置高度宽度，还能不独占一行</div>
+    <!-- span为行内标签，display使得高度宽度设置有效 -->
+    <span class="c2">span行内标签，设置高度宽度</span>
+
+    <h3>3、块级&行内标签相互转换</h3>
+    <!-- div为块级标签，定义宽度，后续距离可以继续使用 -->
+    <div style="display:inline;">div块级标签变行内</div>
+    <div style="display:inline;">div块级标签变行内</div>
+    <span style="display:block;">span块行内签变块级</span>
+    <span style="display:block;">span块行内签变块级</span>
+
+    <h3>4、一行文本对齐方式</h3>
+    <!-- div为块级标签，定义宽度，后续距离可以继续使用 -->
+    <div class="c4">中国</div>
+
+    <h3>5、浮动</h3>
+    <!-- span行内标签：浮动文本分开放置 -->
+    <span>中国</span>
+    <span style="float:right;">移动</span>
+    <div>
+        <!-- div块级标签：浮动使得可以同行放置 -->
+        <div class="c5">中</div>
+        <div class="c5">国</div>
+        <div class="c5">移</div>
+        <div class="c5">动</div>
+        <div>浮动会使得脱离文档流</div>
+        <!-- 将浮动的文本流拽下来 -->
+        <div style="clear:both;">使用该行代码拽下来</div>
+    </div> 
+
+    <h3>6、内边距设置</h3>
+    <div class="c6">
+        <div>小朋友</div>
+        <div>你是否有很多问号</div>
+    </div>
+
+    <h3>7、外边距设置</h3>
+    <div class="c7"></div>
+    
+    
+</body>
+</html>

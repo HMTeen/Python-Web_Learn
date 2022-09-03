@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo</title>
+    <style>
+        .menus{
+            width: 200px;
+            border: 1px solid red;
+        }
+        .menus .header{
+            background-color: gold;
+            padding: 20px 10px;
+        }
+    </style>
+
+    <!-- JS代码位置1：head里面，style下边 -->
+    <!-- <script type="text/javascript">
+        function myFunc(){
+            alert('你好')
+        }
+    </script> -->
+
+</head>
+<body>
+    <div class="menus">
+        <div class="header" onclick="myFunc()">大标题</div>
+        <div class="item">内容</div>
+    </div>
+
+
+    <!-- JS代码位置2：body里面最后边【推荐】 -->
+    <script type="text/javascript">
+        function myFunc(){
+            alert('你好')
+        }
+    </script>
+</body>
+</html>
