@@ -16,6 +16,36 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from app01 import views
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # 默认的对应关系，不用
+    # path('admin/', admin.site.urls),
+    
+    # www.xxx.com/index/  ->  函数
+    path('index/', views.index),
+    path('user/list/', views.user_list),
+    # 模板语法测试
+    path('user/test/', views.test),
+    
+    # 案例：联通新闻中心
+    path('user/news/', views.news),
+    
+    # 请求和响应
+    path('getres/', views.get_response),
+    
+    # orm操作数据库
+    path('orm/', views.orm),
+    
+    
+    # ! 案例：用户管理
+    # 展示用户列表
+    path('info/list/', views.info_list),
+    
+    # 添加用户
+    path('info/add/', views.info_add),
+    
+    # 删除用户
+    path('info/delete/', views.info_delete),
+    
 ]

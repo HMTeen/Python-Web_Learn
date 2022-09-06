@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户列表展示</title>
+</head>
+<body>
+    <h1>INFO列表</h1>
+    <h3>
+        <a href="/info/add/">返回添加</a>
+    </h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>密码</th>
+                <th>年龄</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for obj in data_list %}
+            <tr>
+                <th>{{ obj.id }}</th>
+                <th>{{ obj.name }}</th>
+                <th>{{ obj.password }}</th>
+                <th>{{ obj.age }}</th>
+                <th>
+                    <a href="/info/delete/?nid={{ obj.id }}">删除</a>
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

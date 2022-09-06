@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户列表</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.css' %}">
+</head>
+<body>
+    <h1>用户列表</h1>
+    <!-- /app01/static/01.jpg  不能这样写，只能是下边的形式 -->
+    <!-- <img src="{% static 'img/01.jpg' %}"> -->
+
+    <img src="{% static 'img/01.jpg' %}">
+
+    <input type="text" class="btn btn-primary" value="填写">
+    
+    <input type="text" class="btn-dg" value="填写">
+
+    <input type="text" class="btn btn-primary" value="不填写">
+    
+
+    <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.js' %}"></script>
+</body>
+</html>

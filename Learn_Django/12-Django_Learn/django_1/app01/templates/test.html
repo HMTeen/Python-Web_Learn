@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>模板语法学习</h1>
+    <h2>1、字符串传入</h2>
+    <h3>{{ n1 }}</h3>
+
+
+    <h2>2、列表传入</h2>
+    <h3>{{ n2 }}</h3>
+    <h3>{{ n2.0 }}</h3>
+    <h3>{{ n2.1 }}</h3>
+    <h3>{{ n2.2 }}</h3>
+
+
+    <h2>3、字典传入</h2>
+
+    <h3>单独获取值</h3>
+    <li>{{ n3.name }}</li>
+    <li>{{ n3.salary }}</li>
+    <li>{{ n3.role }}</li>
+    
+    <h3>传入键</h3>
+    {% for item in n3.keys %}
+        <li>{{ item }}</li>
+    {% endfor %}
+    
+    <h3>传入值</h3>
+    {% for item in n3.values %}
+        <li>{{ item }}</li>
+    {% endfor %}
+    
+    <h3>传入键、值</h3>
+    {% for k, v in n3.items %}
+        <li>{{ k }} = {{ v }}</li>
+    {% endfor %}
+
+
+    <h2>4、列表嵌套字典</h2>
+
+    <h3>遍历列表得到字典，通过键得到值</h3>
+    {% for item in n4 %}
+        <li>{{ item.name }}--{{ item.salary }}--{{ item.role }}</li>
+    {% endfor %}
+
+    <h3>遍历列表得到字典，再遍历字典得到键、值</h3>
+    {% for item in n4 %}
+        {% for k in item.keys %}
+            <li>{{ k }}</li>
+        {% endfor %}
+    {% endfor %}
+    
+
+    <h2>5、if语句</h2>
+    {% if n1 == '韩朝' %}
+        <h1>哒哒哒</h1>
+    {% elif n1 == 'xxx' %}
+        <h1>嘟嘟嘟</h1>
+    {% endif %}
+</body>
+</html>
