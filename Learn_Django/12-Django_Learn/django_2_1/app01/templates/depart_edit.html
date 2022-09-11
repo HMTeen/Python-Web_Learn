@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<!-- ! 内容部分 -->
+<div>
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">修改部门</h3>
+			</div>
+			<div class="panel-body">
+				<form method="post">
+					{% csrf_token %}
+					<div class="form-group">
+						<label>部门名称</label>
+						<input type="text" class="form-control" placeholder="{{ depart_row_data.title }}"
+							name="new_depart_name">
+					</div>
+
+					<button type="submit" class="btn btn-primary">提 交</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

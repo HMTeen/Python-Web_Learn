@@ -1,0 +1,106 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<!-- ! 内容部分 -->
+<div>
+	<div class="container">
+		<div style="margin-bottom: 10px;" class="clearfix">
+			<a class="btn btn-success" href="/user/add/" target="_blank">
+				<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+				新建员工信息
+			</a>
+
+			<a class="btn btn-success" href="/user/add/Form" target="_blank">
+				<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+				新建员工信息【Form版本】
+			</a>
+
+			<a class="btn btn-success" href="/user/add/ModelForm/" target="_blank">
+				<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+				新建员工信息【ModelForm版本】
+			</a>
+
+			<!-- 搜索员工信息 -->
+			<div style="float: right; width: 300px;">
+				<form method="get">
+					<div class="input-group">
+						<!-- value设置默认值，保证搜索之后，输入的搜索数据依然存在 -->
+						<input name="search_data" type="text" class="form-control" placeholder="Search for..." value="{{ search_result }}">
+						<span class="input-group-btn">
+						<button class="btn btn-default" type="submit">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button>
+						</span>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- 表格展示区域 -->
+		<div class="panel panel-default">
+			<!-- Default panel contents -->
+			<div class="panel-heading">
+				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+				员工列表
+			</div>
+
+			<!-- Table -->
+			<table class="table table-bordered text-center">
+				<thead>
+					<tr>
+						<th class="text-center">ID</th>
+						<th class="text-center">姓名</th>
+						<th class="text-center">密码</th>
+						<th class="text-center">年龄</th>
+						<th class="text-center">账户余额</th>
+						<th class="text-center">入职时间</th>
+						<th class="text-center">所属部门</th>
+						<th class="text-center">性别</th>
+						<th class="text-center">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for items in user_list %}
+					<tr>
+						<td class="text-center">{{ items.id }}</td>
+						<td class="text-center">{{ items.name }}</td>
+						<td class="text-center">{{ items.password }}</td>
+						<td class="text-center">{{ items.age }}</td>
+						<td class="text-center">{{ items.account }}</td>
+                        <!-- @ python写法：items.create_time.strftime("%Y-%m-%d") -->
+						<td class="text-center">{{ items.create_time|date:"Y-m-d" }}</td>
+                        <!-- 自动搜索并跨表查找 -->
+                        <!-- items.Department_id 获取关联主表中部门id代号 -->
+                        <!-- items.Department 获取关联主表中对应id的行数据：Department object (5) -->
+                        <!-- items.Department.title 获取关联表中对应id的行数据的部门名称 -->
+						<td class="text-center">{{ items.Department.title }}</td>
+                        <!-- items.gender 获取数据库中的原始数据 -->
+                        <!-- items.get_gender_display 获取原始数据对应的真实信息 -->
+                        <!-- @ python写法：items.get_gender_display() -->
+						<td class="text-center">{{ items.get_gender_display }}</td>
+
+						<td class="text-center">
+							<a href="/user/{{ items.id }}/edit/" class="btn btn-primary btn-xs">
+								编辑
+							</a>
+							<a href="/user/delete/?nid={{ items.id }}" class="btn btn-danger btn-xs">
+								删除
+							</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+
+{% block page_sep %}
+<ul class="pagination">
+	{{ page_string }}
+</ul>
+{% endblock %}
+
