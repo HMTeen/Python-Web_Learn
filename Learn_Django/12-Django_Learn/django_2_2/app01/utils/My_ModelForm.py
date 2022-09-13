@@ -2,68 +2,46 @@ from django import forms
 from app01 import models
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
+from app01.utils.Encrypts import *
 
-# Form组件-user_add
-class UserForm_add(forms.Form):
-    name = forms.CharField(label='名字')
-    password = forms.CharField(label='密码')
-    age = forms.IntegerField(label='年龄')
-    account = forms.DecimalField(label='账户余额')
-    create_time = forms.DateField(label='创建时间')
-    Department = forms.CharField(label='所属部门')
-    gender = forms.CharField(label='性别')
+# ！ 定义BootStrap样式父类
+class BootStrap_Parent(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
     
+        for name, field in self.fields.items():
+            field.widget.attrs['class'] = "form-control"
+            if name == 'create_time':
+                field.widget.attrs['placeholder'] = '请输入' + field.label + '【例：2022-01-21】' 
+                
+            elif name == 'confirm_password':
+                field.widget.attrs['placeholder'] = '请' + field.label
+                            
+            else:
+                field.widget.attrs['placeholder'] = '请输入' + field.label 
 
+
+
+# ！ user类
 # ModelForm组件-user_add
-class UserModelForm_add(forms.ModelForm):
+class UserModelForm_add(BootStrap_Parent):
     
     # ！在此添加更多校验规则
     name = forms.CharField(min_length=2, label='姓名')
     
     class Meta:
         model = models.UserInfo
-        # fields = ['name', 'password', 'age', 'account', 'create_time', 'gender', 'Department']
         fields = '__all__'
-        
-        # ！手动更改输入框样式
-        # widgets = {
-        #     'name':forms.TextInput( attrs={'class':"form-control"} ),
-        # }
-        
-    # ！自动更改输入框样式
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        
-        for name, field in self.fields.items():
-            if name == 'create_time':
-                field.widget.attrs = {'class':"form-control", 
-                                  'placeholder': '请输入' + field.label + '【例：2022-01-21】'}
-            else:
-                field.widget.attrs = {'class':"form-control", 
-                                      'placeholder':'请输入' + field.label}
-                
 
 
-class PrettynumAddModelForm_add(forms.ModelForm):
-    
-    # # @ 验证方法1：添加手机号校验规则
-    # mobile = forms.CharField(
-    #     label="手机号",
-    #     validators = [RegexValidator(r'^1(3[0-9]|4[01456879]|5[0-35-9]|6[2567]|7[0-8]|8[0-9]|9[0-35-9])\d{8}$', '手机号格式错误')]
-    # )
+
+# ！ 靓号类
+class PrettynumModelForm_add(BootStrap_Parent):
     
     class Meta:
         model = models.PrettyNum
         fields = ['mobile', 'price', 'level', 'status']
-        # # 全部关联
-        # fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        
-        for name, field in self.fields.items():
-            field.widget.attrs = {'class':"form-control", 
-                                    'placeholder':'请输入' + field.label}
     # @ 验证方法2：定义字段函数
     def clean_mobile(self):
         text_mobile = self.cleaned_data['mobile']
@@ -76,21 +54,11 @@ class PrettynumAddModelForm_add(forms.ModelForm):
         return text_mobile
     
 
+class PrettynumModelForm_edit(BootStrap_Parent):
 
-class PrettynumModelForm_edit(forms.ModelForm):
-    # # 可以设置手机号不可改
-    # mobile = forms.CharField(disabled=True, label='手机号') 
-    
     class Meta:
         model = models.PrettyNum
         fields = ['mobile', 'price', 'level', 'status']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        
-        for name, field in self.fields.items():
-            field.widget.attrs = {'class':"form-control", 
-                                    'placeholder':'请输入' + field.label}
     
     # @ 验证方法2：定义字段函数
     def clean_mobile(self):
@@ -104,3 +72,103 @@ class PrettynumModelForm_edit(forms.ModelForm):
         if models.PrettyNum.objects.filter(mobile=text_mobile).exclude(id=id_mobile).exists():
            raise ValidationError('手机号已存在') 
         return text_mobile
+    
+    
+    
+    
+# ！ 管理员类
+class AdminModelForm_add(BootStrap_Parent):
+    
+    # 想添加一个确认密码的按钮
+    confirm_password = forms.CharField(label='确认管理员密码',
+                                       widget=forms.PasswordInput)
+    
+    class Meta:
+        model = models.Admin
+        fields = '__all__'
+        
+        widgets = {
+            'password':forms.PasswordInput(render_value=True)
+        }
+    
+    def clean_password(self):
+        pwd = self.cleaned_data.get('password')
+        return md5(pwd)
+    
+    def clean_confirm_password(self):
+        confirm_password = md5(self.cleaned_data.get('confirm_password'))
+        # 密码不用再加密了，已经加密过一次了
+        password = self.cleaned_data.get('password')
+        if password != confirm_password:
+            raise ValidationError('密码不一致')
+        
+        # 返回什么，数据库到时候就保存什么
+        return confirm_password
+    
+    
+    
+class AdminModelForm_edit(BootStrap_Parent):
+    
+    # 想添加一个确认密码的按钮
+    confirm_password = forms.CharField(label='确认管理员密码',
+                                       widget=forms.PasswordInput)
+    
+    password = forms.CharField(label='管理员密码', disabled=True)
+    
+    class Meta:
+        model = models.Admin
+        fields = '__all__'
+        
+        widgets = {
+            'password':forms.PasswordInput(render_value=True)
+        }
+    
+    # def clean_password(self):
+    #     pwd = self.cleaned_data.get('password')
+    #     return md5(pwd)
+    
+    def clean_confirm_password(self):
+        confirm_password = md5(self.cleaned_data.get('confirm_password'))
+        # 密码不用再加密了，已经加密过一次了
+        password = self.cleaned_data.get('password')
+        if password != confirm_password:
+            raise ValidationError('密码不一致')
+        
+        # 返回什么，数据库到时候就保存什么
+        return confirm_password
+    
+    
+ 
+class AdminModelForm_reset(BootStrap_Parent):
+    
+    name = forms.CharField(label='管理员姓名', disabled=True)
+    confirm_password = forms.CharField(label='确认管理员密码',
+                                       widget=forms.PasswordInput)
+ 
+    class Meta:
+        model = models.Admin
+        fields = '__all__'
+        
+        widgets = {
+            'password':forms.PasswordInput(render_value=True)
+        }
+    
+    def clean_password(self):
+        pwd = self.cleaned_data.get('password')
+        pwd_new = md5(pwd)
+        
+        # 去数据库校验：修改的密码是否和以前一样
+        if models.Admin.objects.filter(id=self.instance.pk, password=pwd_new).exists():
+            raise ValidationError('新密码不能和原密码一致')
+        
+        return pwd_new
+    
+    def clean_confirm_password(self):
+        confirm_password = md5(self.cleaned_data.get('confirm_password'))
+        # 密码不用再加密了，已经加密过一次了
+        password = self.cleaned_data.get('password')
+        if password != confirm_password:
+            raise ValidationError('密码不一致')
+        
+        # 返回什么，数据库到时候就保存什么
+        return confirm_password

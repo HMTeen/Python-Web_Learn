@@ -1,3 +1,30 @@
+'''导入实例
+1. 自定义视图函数，并获得数据列表【全部、筛选都可以】
+2. 实例化Pagination对象为pagination_object，同时传入（request, data_list_selected）两个参数
+3. -- pagination_object.data_list_PerPageShow   该属性可以获得每页展示的数据列表，并传入html界面
+   -- pagination_object.Html_Pagination()       该函数可以生成分页展示的li标签，并传入html界面
+
+
+def admin_list(request):
+    choices_list = {}
+    search_result = request.GET.get('search_data', '')  # 有数值取数值，没数值得到空字符串
+    if search_result:
+        choices_list['mobile__contains'] = search_result
+        
+    data_list_selected = models.Admin.objects.filter(**choices_list)    
+    pagination_object = Pagination(request, data_list_selected)
+    context = {
+        'admin_list':pagination_object.data_list_PerPageShow,
+        'search_result':search_result,
+        'page_string':pagination_object.Html_Pagination()
+    }
+    return render(request, 'admin_list.html', context)
+    
+'''
+
+
+
+
 from django.shortcuts import render, HttpResponse, redirect
 from app01 import models
 from django.utils.safestring import mark_safe

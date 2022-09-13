@@ -16,42 +16,41 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from app01 import views
+from app01.views import admin, depart, user, prettynum, account
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
-    
+
     # ！ 部门管理
-    # 部门列表展示
-    path('depart/list/', views.depart_list),
-    
-    # 添加部门
-    path('depart/add/', views.depart_add),
-    
-    # 删除部门
-    path('depart/delete/', views.depart_delete),
-    
-    # 编辑部门
-    # 带有正则表达的url链接
-    path('depart/<int:nid>/edit/', views.depart_edit),
+    path('depart/list/', depart.depart_list),
+    path('depart/add/', depart.depart_add),
+    path('depart/delete/', depart.depart_delete),
+    path('depart/<int:nid>/edit/', depart.depart_edit),
     
     
     # ！ 员工用户管理
-    # 员工列表展示
-    path('user/list/', views.user_list),
-    
-    # 添加用户
-    path('user/add/', views.user_add),
-    path('user/add/Form', views.user_add_Form),
-    path('user/add/ModelForm/', views.user_add_ModelForm),
-    path('user/<int:nid>/edit/', views.user_edit),
-    path('user/delete/', views.user_delete),
+    path('user/list/', user.user_list),
+    path('user/add/', user.user_add),
+    path('user/add/Form', user.user_add_Form),
+    path('user/add/ModelForm/', user.user_add_ModelForm),
+    path('user/<int:nid>/edit/', user.user_edit),
+    path('user/delete/', user.user_delete),
     
     
     # ！ 靓号管理
-    path('prettynum/list/', views.prettynum_list),
-    path('prettynum/add/ModelForm/', views.prettynum_add_ModelForm),
-    path('prettynum/<int:nid>/edit/', views.prettynum_edit),
-    path('prettynum/delete/', views.prettynum_delete),
+    path('prettynum/list/', prettynum.prettynum_list),
+    path('prettynum/add/ModelForm/', prettynum.prettynum_add_ModelForm),
+    path('prettynum/<int:nid>/edit/', prettynum.prettynum_edit),
+    path('prettynum/delete/', prettynum.prettynum_delete),
     
+    
+    # ！ 管理员权限管理
+    path('admin/list/', admin.admin_list),
+    path('admin/add/', admin.admin_add),
+    path('admin/<int:nid>/edit/', admin.admin_edit),
+    path('admin/delete/', admin.admin_delete),
+    path('admin/<int:nid>/reset/', admin.admin_reset),
+    
+    # ！ 用户登录
+    path('login/', account.login),
+    path('logout/', account.logout),
 ]
