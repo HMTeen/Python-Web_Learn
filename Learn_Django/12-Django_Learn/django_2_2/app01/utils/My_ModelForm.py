@@ -104,7 +104,7 @@ class AdminModelForm_add(BootStrap_Parent):
         
         # 返回什么，数据库到时候就保存什么
         return confirm_password
-    
+
     
     
 class AdminModelForm_edit(BootStrap_Parent):
@@ -172,3 +172,17 @@ class AdminModelForm_reset(BootStrap_Parent):
         
         # 返回什么，数据库到时候就保存什么
         return confirm_password
+    
+
+class TaskModelForm(BootStrap_Parent):
+    class Meta:
+        model = models.Task
+        fields = '__all__'
+        
+
+
+class OrderModelForm(BootStrap_Parent):
+    class Meta:
+        model = models.Order
+        # fields = '__all__'
+        exclude = ['oid', 'admin']

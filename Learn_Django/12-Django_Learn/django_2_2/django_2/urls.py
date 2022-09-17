@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from app01.views import admin, depart, user, prettynum, account
+from app01.views import admin, depart, user, prettynum, account, task, order
 
 urlpatterns = [
 
@@ -53,4 +53,17 @@ urlpatterns = [
     # ！ 用户登录
     path('login/', account.login),
     path('logout/', account.logout),
+    path('image/code/', account.image_code),
+    
+    # ！ 任务管理
+    path('task/list/', task.task_list),
+    path('task/ajax/', task.task_ajax),
+    path('task/add/', task.task_add),
+    
+    
+    # ！ 订单管理
+    path('order/list/', order.order_list),
+    path('order/add/', order.order_add),
+    
+    
 ]

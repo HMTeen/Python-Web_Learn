@@ -36,17 +36,33 @@
         <form method="post" novalidate>
             {% csrf_token %}
             <div class="form-group">
-                {{ forms.name.label }}
+                <label>{{ forms.name.label }}</label>
                 {{ forms.name }}
                 <span style="color: red;">{{ forms.name.errors.0 }}</span>
             </div>
 
             <div class="form-group">
-                {{ forms.password.label }}
+                <label>{{ forms.password.label }}</label>
                 {{ forms.password }}
                 <span style="color: red;">{{ forms.password.errors.0 }}</span>
             </div>
+
+            
+            <div class="form-group">
+                <label>{{ forms.code.label }}</label>
+                <div class="row">
+                    <div class="col-xs-7">
+                        {{ forms.code }}
+                        <span style="color: red;">{{ forms.code.errors.0 }}</span>
+                    </div>
+                    <div class="col-xs-5">
+                        <img id="image_code" src="/image/code/">
+                    </div>
+                </div>
+            </div>
+
             <input type="submit" value="登录" class="btn btn-primary">
+
         </form>
     </div>
 

@@ -1,0 +1,161 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<!-- ! 内容部分 -->
+<div>
+	<div class="container">
+		<div style="margin-bottom: 10px;">
+			<input id="btn_add" type="button" value="{{ ModelForm_title }}" class="btn btn-success">
+
+			<!-- 页面数据搜索框 -->
+			<!-- ！前端参数：search_result，所在地 -->
+			<!-- ！GET形式传参后端：search_data，用于筛选数据 -->
+			{% include 'layout_search_bar.html' %}
+		</div>
+
+		<!-- 表格展示区域 -->
+		<div class="panel panel-default">
+			<!-- Default panel contents -->
+			<div class="panel-heading">
+				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+				{{ Table_title }}
+			</div>
+
+			<!-- Table -->
+			<table class="table table-bordered text-center">
+				<thead>
+					<tr>
+						<th class="text-center">ID</th>
+						<th class="text-center">订单号</th>
+						<th class="text-center">订单名称</th>
+						<th class="text-center">价格</th>
+						<th class="text-center">状态</th>
+						<th class="text-center">管理员</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for items in data_list %}
+					<tr>
+						<th class="text-center">{{ items.id }}</th>
+						<td class="text-center">{{ items.oid }}</td>
+						<td class="text-center">{{ items.name }}</td>
+						<td class="text-center">{{ items.price }}</td>
+						<td class="text-center">{{ items.get_status_display }}</td>
+						<td class="text-center">{{ items.admin }}</td>
+						<td class="text-center">
+							<a href="/order/{{ items.id }}/edit/" class="btn btn-primary btn-xs">
+								编辑
+							</a>
+							<a href="/order/delete/?nid={{ items.id }}" class="btn btn-danger btn-xs">
+								删除
+							</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- 新建订单，对话框 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">新建订单</h4>
+				</div>
+				<div class="modal-body">
+
+					<form id="form_add" novalidate>
+						{% for field in form %}
+						<div class="form-group">
+							<label> {{ field.label }} </label>
+							{{ field }}
+							<span class="error-msg" style="color: red;"></span>
+						</div>
+						{% endfor %}
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+					<button id="btn_save" type="button" class="btn btn-primary">保 存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    // jQuery 绑定事件
+    $(function () {
+        add_event();
+        save_event();
+        // delete_event();
+    })
+
+    function add_event() {
+        $('#btn_add').click(function () {
+            $('#myModal').modal('show');
+        });
+    }
+
+    function save_event() {
+        $('#btn_save').click(function () {
+
+            $('.error-msg').empty()
+
+            $.ajax({
+                url: '/order/add/',
+                type: 'post',
+                data: $('#form_add').serialize(),
+                dataType: 'JSON',
+                success: function (res) {
+                    if (res.status) {
+                        // alert('添加成功');
+                        // 清空输入的表单
+                        //$('#form_add')——jQuery对象；$('#form_add')[0]——DOM对象，DOM对象具有清空表单的功能 
+                        $('#form_add')[0].reset();
+
+                        // 关闭模态框
+                        $('#myModal').modal('hide')
+
+                        // 刷新页面
+                        location.reload();
+
+                    } else {
+                        // 循环res.errors:键名为name，值名为data
+                        $.each(res.errors, function (name, data) {
+                            // console.log(name, data)
+                            // form表单生成的是否，会定义默认id
+                            $('#id_' + name).next().text(data[0]);
+                        })
+                    }
+                }
+            })
+        });
+    }
+
+    function delete_event() {
+        $('.btn-delete').click(function () {
+            $('#deleteModal').modal('show');
+        });
+    }
+
+</script>
+{% endblock %}
+
+
+{% block page_sep %}
+<ul class="pagination">
+	{{ page_string }}
+</ul>
+
+<!-- ！GET形式传参后端：page，用于页码跳转 -->
+{% include 'layout_page_bar.html' %}
+{% endblock %}

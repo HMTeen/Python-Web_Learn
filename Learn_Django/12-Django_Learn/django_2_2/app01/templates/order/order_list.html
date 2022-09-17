@@ -1,0 +1,181 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<!-- ! 内容部分 -->
+<div class="container">
+
+    <div style="margin-bottom: 10px;" class="clearfix">
+
+        <input type="button" value="新建订单——属性绑定" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        <input id="btn_add" type="button" value="新建订单——JS绑定" class="btn btn-primary">
+
+        <div style="float: right; width: 300px;">
+            <form method="get">
+                <div class="input-group">
+                    <!-- value设置默认值，保证搜索之后，输入的搜索数据依然存在 -->
+                    <input name="search_data" type="text" class="form-control" placeholder="Search for..."
+                        value="{{ search_result }}">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 表格展示区域 -->
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            订单列表
+        </div>
+
+        <!-- Table -->
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">订单号</th>
+                    <th class="text-center">名称</th>
+                    <th class="text-center">价格</th>
+                    <th class="text-center">状态</th>
+                    <th class="text-center">所属管理员</th>
+                    <th class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for items in forms %}
+                <tr>
+                    <th class="text-center">{{ items.id }}</th>
+                    <td class="text-center">{{ items.oid }}</td>
+                    <td class="text-center">{{ items.title }}</td>
+                    <td class="text-center">{{ items.price }}</td>
+                    <td class="text-center">{{ items.get_status_display }}</td>
+                    <td class="text-center">{{ items.admin.name }}</td>
+
+
+                    <td class="text-center">
+                        <a href="/prettynum/{{ items.id }}/edit/" class="btn btn-primary btn-xs">
+                            编辑
+                        </a>
+                        <input type="button" class="btn btn-danger btn-xs btn-delete" value="删除">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 新建订单，对话框 -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新建订单</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form id="form_add" novalidate>
+                        {% for field in form %}
+                        <div class="form-group">
+                            <label> {{ field.label }} </label>
+                            {{ field }}
+                            <span class="error-msg" style="color: red;"></span>
+                        </div>
+                        {% endfor %}
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                    <button id="btn_save" type="button" class="btn btn-primary">保 存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 删除对话框 -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                <h4>是否确定删除？</h4>
+                <p>删除后，关联数据都将消失！</p>
+                <p>
+                  <button type="button" class="btn btn-danger">确定</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </p>
+              </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    // 页面框架加载完之后，代码自动执行     
+
+    // jQuery 绑定事件
+    $(function () {
+        add_event();
+        save_event();
+        delete_event();
+    })
+
+    function add_event() {
+        $('#btn_add').click(function () {
+            $('#myModal').modal('show');
+        });
+    }
+
+    function save_event() {
+        $('#btn_save').click(function () {
+
+            // 清空错误信息提示栏
+            $('.error-msg').empty()
+
+            $.ajax({
+                url: '/order/add/',
+                type: 'post',
+                data: $('#form_add').serialize(),
+                dataType: 'JSON',
+                success: function (res) {
+                    if (res.status) {
+
+                        // alert('添加成功');
+                        // 清空输入的表单
+                        //$('#form_add')——jQuery对象；$('#form_add')[0]——DOM对象，DOM对象具有清空表单的功能 
+                        $('#form_add')[0].reset();
+
+                        // 关闭模态框
+                        $('#myModal').modal('hide')
+
+                        // 刷新页面
+                        location.reload();
+
+                    } else {
+                        // 循环res.errors:键名为name，值名为data
+                        $.each(res.errors, function (name, data) {
+                            // console.log(name, data)
+                            // form表单生成的是否，会定义默认id
+                            $('#id_' + name).next().text(data[0]);
+                        })
+                    }
+                }
+            })
+        });
+    }
+
+    function delete_event() {
+        $('.btn-delete').click(function () {
+            $('#deleteModal').modal('show');
+        });
+    }
+
+</script>
+{% endblock %}
