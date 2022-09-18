@@ -11,7 +11,7 @@ from app01.views.Layout_Function import *
 STR_Name = '管理员信息'
 
 Models_Category = models.Admin
-
+ModelForm_Category_list = AdminModelForm_list
 ModelForm_Category_add = AdminModelForm_add
 ModelForm_Category_edit = AdminModelForm_edit
 
@@ -20,7 +20,7 @@ def list(request):
     # Data_Create().create_data_num = 10
     # Data_Create().admin()
 
-    context = Views_List_HTML().version_1(request, Models_Category)
+    context = Views_List_HTML().version_1(request, Models_Category, ModelForm_Category_list)
     context['ModelForm_title'] = '新建' + STR_Name
     context['Table_title'] = STR_Name + '列表'
     return render(request, 'admin/list.html', context)

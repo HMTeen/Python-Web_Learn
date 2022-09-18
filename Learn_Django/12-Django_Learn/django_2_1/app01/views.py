@@ -191,6 +191,14 @@ def prettynum_list(request):
     #     models.PrettyNum.objects.create(mobile='12345678901', price='1234', level=2, status=2)
     
     choices_list = {}
+    search_key = request.GET.get('search_key')
+    print(search_key)
+
+    form = PrettynumListModelForm()
+    for field in form:
+        print(field, field.name, field.label)
+        
+    
     search_criteria = request.GET.get('search_criteria', '')  # 有数值拿数值，没数值拿空字符串
     if search_criteria:
         choices_list['mobile__contains'] = search_criteria

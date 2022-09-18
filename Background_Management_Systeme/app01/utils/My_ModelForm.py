@@ -22,6 +22,11 @@ class BootStrap_ModelForm_Parent(forms.ModelForm):
 
 
 # ！ 管理员类
+class AdminModelForm_list(BootStrap_ModelForm_Parent):
+    class Meta:
+        model = models.Admin
+        fields = '__all__'
+
 class AdminModelForm_add(BootStrap_ModelForm_Parent):
     
     # 想添加一个确认密码的按钮
@@ -50,7 +55,6 @@ class AdminModelForm_add(BootStrap_ModelForm_Parent):
         # 返回什么，数据库到时候就保存什么
         return confirm_password
 
-    
 class AdminModelForm_edit(BootStrap_ModelForm_Parent):
     
     # 想添加一个确认密码的按钮
@@ -83,8 +87,6 @@ class AdminModelForm_edit(BootStrap_ModelForm_Parent):
         # 返回什么，数据库到时候就保存什么
         return confirm_password
     
-    
- 
 class AdminModelForm_reset(BootStrap_ModelForm_Parent):
     
     name = forms.CharField(label='管理员姓名', disabled=True)
@@ -121,6 +123,11 @@ class AdminModelForm_reset(BootStrap_ModelForm_Parent):
 
 
 # ！ Department类
+class DepartmentModelForm_list(BootStrap_ModelForm_Parent):
+    class Meta:
+        model = models.Department
+        fields = '__all__'
+
 class DepartmentModelForm_add(BootStrap_ModelForm_Parent):
     class Meta:
         model = models.Department
@@ -133,13 +140,17 @@ class DepartmentModelForm_edit(BootStrap_ModelForm_Parent):
         
 
 # ！ user类
+class UserModelForm_list(BootStrap_ModelForm_Parent):
+    class Meta:
+        model = models.UserInfo
+        fields = '__all__'
+
 class UserModelForm_add(BootStrap_ModelForm_Parent):
     # 添加校验规则
     name = forms.CharField(min_length=2, label='姓名')
     class Meta:
         model = models.UserInfo
         fields = '__all__'
-
 
 class UserModelForm_edit(BootStrap_ModelForm_Parent):
     class Meta:
@@ -148,6 +159,11 @@ class UserModelForm_edit(BootStrap_ModelForm_Parent):
 
 
 # ！ 靓号类
+class PrettynumModelForm_list(BootStrap_ModelForm_Parent):
+    class Meta:
+        model = models.PrettyNum
+        fields = ['mobile', 'price', 'level', 'status']
+
 class PrettynumModelForm_add(BootStrap_ModelForm_Parent):
     
     class Meta:
@@ -165,7 +181,6 @@ class PrettynumModelForm_add(BootStrap_ModelForm_Parent):
            raise ValidationError('手机号已存在') 
         return text_mobile
     
-
 class PrettynumModelForm_edit(BootStrap_ModelForm_Parent):
 
     class Meta:
@@ -187,6 +202,11 @@ class PrettynumModelForm_edit(BootStrap_ModelForm_Parent):
     
     
 # ！ 任务类
+class TaskModelForm_list(BootStrap_ModelForm_Parent):
+    class Meta:
+        model = models.Task
+        fields = '__all__'
+
 class TaskModelForm_add(BootStrap_ModelForm_Parent):
     class Meta:
         model = models.Task
@@ -202,7 +222,7 @@ class TaskModelForm_edit(BootStrap_ModelForm_Parent):
 class OrderModelForm_list(BootStrap_ModelForm_Parent):
     class Meta:
         model = models.Order
-        exclude = ['oid', 'admin']
+        fields = '__all__'
         
 class OrderModelForm_add(BootStrap_ModelForm_Parent):
     class Meta:

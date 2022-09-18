@@ -4,8 +4,8 @@ from django.db import models
 
 # 创建管理员数据表
 class Admin(models.Model):
-    name = models.CharField(verbose_name='管理员姓名', max_length=32)
-    password = models.CharField(verbose_name='管理员密码', max_length=64)
+    name = models.CharField(verbose_name='姓名', max_length=32)
+    password = models.CharField(verbose_name='密码', max_length=64)
     # 关联表格页面展示问题：定义str函数，即可解决输出为object对象的问题
     def __str__(self):
         return self.name

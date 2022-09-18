@@ -12,6 +12,7 @@ STR_Name = '靓号信息'
 
 Models_Category = models.PrettyNum
 
+ModelForm_Category_list = PrettynumModelForm_list
 ModelForm_Category_add = PrettynumModelForm_add
 ModelForm_Category_edit = PrettynumModelForm_edit
 
@@ -20,7 +21,7 @@ def list(request):
     # Data_Delete().Delete(Models_Category)
     # Data_Create().PrettyNum()
 
-    context = Views_List_HTML().version_1(request, Models_Category)
+    context = Views_List_HTML().version_1(request, Models_Category, ModelForm_Category_list)
     context['ModelForm_title'] = '新建' + STR_Name
     context['Table_title'] = STR_Name + '列表'
     return render(request, 'prettynum/list.html', context)

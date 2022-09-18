@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<!-- ! 内容部分 -->
+<div>
+	<div class="container">
+		<div style="margin-bottom: 10px;">
+			<a class="btn btn-success" href="/prettynum/add/" target="_blank">
+				<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+				{{ ModelForm_title }}
+			</a>
+
+			<!-- 页面数据搜索框 -->
+			<!-- ！前端参数：search_result，所在地 -->
+			<!-- ！GET形式传参后端：search_data，用于筛选数据 -->
+			{% include 'layout_search_bar.html' %}
+		</div>
+
+		<!-- 表格展示区域 -->
+		<div class="panel panel-default">
+			<!-- Default panel contents -->
+			<div class="panel-heading">
+				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+				{{ Table_title }}
+			</div>
+
+			<!-- Table -->
+			<table class="table table-bordered text-center">
+				<thead>
+					<tr>
+						<th class="text-center">ID</th>
+						<th class="text-center">手机号</th>
+						<th class="text-center">价格</th>
+						<th class="text-center">级别</th>
+						<th class="text-center">状态</th>
+						<th class="text-center">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for items in data_list %}
+					<tr>
+						<td class="text-center">{{ items.id }}</td>
+						<td class="text-center">{{ items.mobile }}</td>
+						<td class="text-center">{{ items.price }}</td>
+						<td class="text-center">{{ items.level }}</td>
+						<td class="text-center">{{ items.get_status_display }}</td>
+
+						<td class="text-center">
+							<a href="/prettynum/{{ items.id }}/edit/" class="btn btn-primary btn-xs">
+								编辑
+							</a>
+							<a href="/prettynum/delete/?nid={{ items.id }}" class="btn btn-danger btn-xs">
+								删除
+							</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+</div>
+
+{% endblock %}
+
+{% block page_sep %}
+<ul class="pagination">
+	{{ page_string }}
+</ul>
+
+<!-- ！GET形式传参后端：page，用于页码跳转 -->
+{% include 'layout_page_bar.html' %}
+{% endblock %}

@@ -15,7 +15,7 @@ import json
 STR_Name = '任务信息'
 
 Models_Category = models.Task
-
+ModelForm_Category_list = TaskModelForm_list
 ModelForm_Category_add = TaskModelForm_add
 ModelForm_Category_edit = TaskModelForm_edit
 
@@ -42,7 +42,7 @@ def add_ajax(request):
 
 
 def list(request):
-    context = Views_List_HTML().version_1(request, Models_Category)
+    context = Views_List_HTML().version_1(request, Models_Category, ModelForm_Category_list)
     context['Table_title'] = '新建' + STR_Name
     return render(request, 'task/list.html', context)
 

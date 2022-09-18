@@ -12,6 +12,7 @@ STR_Name = '员工信息'
 
 Models_Category = models.UserInfo
 
+ModelForm_Category_list = UserModelForm_list
 ModelForm_Category_add = UserModelForm_add
 ModelForm_Category_edit = UserModelForm_edit
 
@@ -19,7 +20,7 @@ def list(request):
     # 创建数据
     # Data_Create().UserInfo()
 
-    context = Views_List_HTML().version_1(request, Models_Category)
+    context = Views_List_HTML().version_1(request, Models_Category, ModelForm_Category_list)
     context['ModelForm_title'] = '新建' + STR_Name
     context['Table_title'] = STR_Name + '列表'
     return render(request, 'userinfo/list.html', context)

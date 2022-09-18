@@ -11,7 +11,7 @@ from app01.views.Layout_Function import *
 STR_Name = '部门信息'
 
 Models_Category = models.Department
-
+ModelForm_Category_list = DepartmentModelForm_list
 ModelForm_Category_add = DepartmentModelForm_add
 ModelForm_Category_edit = DepartmentModelForm_edit
 
@@ -19,7 +19,7 @@ def list(request):
     # 创建数据
     # Data_Create().Department()
 
-    context = Views_List_HTML().version_1(request, Models_Category)
+    context = Views_List_HTML().version_1(request, Models_Category, ModelForm_Category_list)
     context['ModelForm_title'] = '新建' + STR_Name
     context['Table_title'] = STR_Name + '列表'
     return render(request, 'depart/list.html', context)
